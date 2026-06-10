@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Primary SEO -->
+  <title>Bluesky DID Finder — Resolve Any Handle to Its DID Instantly</title>
+  <meta name="description" content="Look up the Decentralized Identifier (DID) for any Bluesky handle in seconds. Free, fast, and privacy-first — no login required." />
+  <meta name="keywords" content="Bluesky DID, Bluesky handle lookup, AT Protocol DID, resolve Bluesky handle, did:plc, did:web, Bluesky developer tool" />
+  <meta name="author" content="Bluesky DID Finder" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://bluesky-did-finder.app/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Bluesky DID Finder — Resolve Any Handle Instantly" />
+  <meta property="og:description" content="Look up the Decentralized Identifier (DID) for any Bluesky handle in seconds. Free, fast, privacy-first." />
+  <meta property="og:url" content="https://bluesky-did-finder.app/" />
+  <meta property="og:site_name" content="Bluesky DID Finder" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Bluesky DID Finder" />
+  <meta name="twitter:description" content="Resolve any Bluesky handle to its DID instantly. Free developer tool." />
+  <meta name="twitter:site" content="@bsky.app" />
+
+  <!-- PWA -->
+  <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="DID Finder" />
+  <meta name="application-name" content="DID Finder" />
+  <meta name="msapplication-TileColor" content="#0070f3" />
+
+  <!-- Inline SVG Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230070f3'/%3E%3Ctext x='16' y='22' font-family='system-ui' font-size='18' font-weight='700' text-anchor='middle' fill='white'%3E@%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%230070f3'/%3E%3Ctext x='90' y='125' font-family='system-ui' font-size='110' font-weight='700' text-anchor='middle' fill='white'%3E@%3C/text%3E%3C/svg%3E" />
+
+  <!-- Inline PWA Manifest -->
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Bluesky+DID+Finder%22%2C%22short_name%22%3A%22DID+Finder%22%2C%22description%22%3A%22Resolve+any+Bluesky+handle+to+its+DID+instantly%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230a0a0a%22%2C%22theme_color%22%3A%22%230070f3%22%2C%22orientation%22%3A%22portrait-primary%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg+xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'+viewBox%3D'0+0+512+512'%253E%253Crect+width%3D'512'+height%3D'512'+rx%3D'115'+fill%3D'%25230070f3'%2F%253E%253Ctext+x%3D'256'+y%3D'360'+font-family%3D'system-ui'+font-size%3D'320'+font-weight%3D'700'+text-anchor%3D'middle'+fill%3D'white'%253E%2540%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any+maskable%22%7D%5D%7D" />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Bluesky DID Finder",
+    "url": "https://bluesky-did-finder.app/",
+    "description": "Look up the Decentralized Identifier (DID) for any Bluesky handle instantly. Free, fast, and privacy-first.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "Resolve Bluesky handle to DID",
+      "Support for did:plc and did:web",
+      "Dark and light mode",
+      "Progressive Web App",
+      "No login required"
+    ]
+  }
+  </script>
+
+  <style>
+    /* ============================================
+       DESIGN TOKENS — Next.js System Aesthetic
+       ============================================ */
+    :root {
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Fira Mono", "Consolas", monospace;
+
+      /* Light mode */
+      --bg:          #ffffff;
+      --bg-secondary:#f5f5f5;
+      --bg-tertiary: #fafafa;
+      --surface:     #ffffff;
+      --border:      #e5e5e5;
+      --border-hover:#d4d4d4;
+      --text-primary:#0a0a0a;
+      --text-secondary:#737373;
+      --text-tertiary:#a3a3a3;
+      --accent:      #0070f3;
+      --accent-hover:#0060df;
+      --accent-subtle:#eff6ff;
+      --success:     #16a34a;
+      --success-bg:  #f0fdf4;
+      --error:       #dc2626;
+      --error-bg:    #fef2f2;
+      --shadow-sm:   0 1px 2px rgba(0,0,0,.05);
+      --shadow-md:   0 4px 12px rgba(0,0,0,.08);
+      --shadow-focus:0 0 0 3px rgba(0,112,243,.25);
+      --radius-sm:   6px;
+      --radius-md:   10px;
+      --radius-lg:   14px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:          #0a0a0a;
+        --bg-secondary:#111111;
+        --bg-tertiary: #161616;
+        --surface:     #111111;
+        --border:      #262626;
+        --border-hover:#404040;
+        --text-primary:#fafafa;
+        --text-secondary:#a3a3a3;
+        --text-tertiary:#525252;
+        --accent:      #3b82f6;
+        --accent-hover:#60a5fa;
+        --accent-subtle:#0f172a;
+        --success:     #4ade80;
+        --success-bg:  #052e16;
+        --error:       #f87171;
+        --error-bg:    #450a0a;
+        --shadow-sm:   0 1px 2px rgba(0,0,0,.4);
+        --shadow-md:   0 4px 12px rgba(0,0,0,.5);
+        --shadow-focus:0 0 0 3px rgba(59,130,246,.3);
+      }
+    }
+
+    [data-theme="light"] {
+      --bg:#ffffff; --bg-secondary:#f5f5f5; --bg-tertiary:#fafafa;
+      --surface:#ffffff; --border:#e5e5e5; --border-hover:#d4d4d4;
+      --text-primary:#0a0a0a; --text-secondary:#737373; --text-tertiary:#a3a3a3;
+      --accent:#0070f3; --accent-hover:#0060df; --accent-subtle:#eff6ff;
+      --success:#16a34a; --success-bg:#f0fdf4;
+      --error:#dc2626; --error-bg:#fef2f2;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.05);
+      --shadow-md:0 4px 12px rgba(0,0,0,.08);
+      --shadow-focus:0 0 0 3px rgba(0,112,243,.25);
+    }
+
+    [data-theme="dark"] {
+      --bg:#0a0a0a; --bg-secondary:#111111; --bg-tertiary:#161616;
+      --surface:#111111; --border:#262626; --border-hover:#404040;
+      --text-primary:#fafafa; --text-secondary:#a3a3a3; --text-tertiary:#525252;
+      --accent:#3b82f6; --accent-hover:#60a5fa; --accent-subtle:#0f172a;
+      --success:#4ade80; --success-bg:#052e16;
+      --error:#f87171; --error-bg:#450a0a;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.4);
+      --shadow-md:0 4px 12px rgba(0,0,0,.5);
+      --shadow-focus:0 0 0 3px rgba(59,130,246,.3);
+    }
+
+    /* ============================================
+       RESET & BASE
+       ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      transition: background .2s, color .2s;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================
+       LAYOUT
+       ============================================ */
+    .layout {
+      display: flex;
+      flex-direction: column;
+      min-height: 100dvh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ============================================
+       HEADER / NAV
+       ============================================ */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+    }
+
+    .nav-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--accent);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+      color: white;
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+    }
+
+    .logo-text {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -.02em;
+    }
+
+    .logo-text span { color: var(--text-secondary); font-weight: 400; }
+
+    .theme-btn {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color .15s, color .15s, background .15s;
+      font-size: 16px;
+    }
+
+    .theme-btn:hover {
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+      background: var(--bg-secondary);
+    }
+
+    .theme-btn:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+
+    /* ============================================
+       MAIN CONTENT
+       ============================================ */
+    main {
+      flex: 1;
+      padding: 64px 0 80px;
+    }
+
+    /* ============================================
+       HERO
+       ============================================ */
+    .hero {
+      margin-bottom: 48px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .eyebrow-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .5; transform: scale(.8); }
+    }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700;
+      letter-spacing: -.04em;
+      line-height: 1.15;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      max-width: 520px;
+    }
+
+    .hero-desc code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--text-primary);
+    }
+
+    /* ============================================
+       SEARCH CARD
+       ============================================ */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .input-wrapper {
+      position: relative;
+      flex: 1;
+    }
+
+    .input-prefix {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-tertiary);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .handle-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 12px 0 30px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s, background .15s;
+      -webkit-appearance: none;
+    }
+
+    .handle-input::placeholder { color: var(--text-tertiary); }
+
+    .handle-input:focus {
+      border-color: var(--accent);
+      background: var(--bg);
+      box-shadow: var(--shadow-focus);
+    }
+
+    .handle-input:focus + .input-prefix { color: var(--accent); }
+
+    .handle-input.error-input { border-color: var(--error); }
+    .handle-input.error-input:focus { box-shadow: 0 0 0 3px rgba(220,38,38,.2); }
+
+    .btn-primary {
+      height: 44px;
+      padding: 0 20px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s, transform .1s, box-shadow .15s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn-primary:active:not(:disabled) { transform: scale(.98); }
+    .btn-primary:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+
+    .btn-primary:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    .btn-icon {
+      display: inline-block;
+      transition: transform .2s;
+    }
+
+    .btn-primary:not(:disabled):hover .btn-icon { transform: translateX(2px); }
+
+    .spinner {
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .hint {
+      margin-top: 11px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    /* ============================================
+       RESULT
+       ============================================ */
+    .result-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      animation: slideUp .22s cubic-bezier(.16,1,.3,1) both;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-header {
+      padding: 14px 20px;
+      background: var(--success-bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .result-header .check-icon {
+      width: 18px;
+      height: 18px;
+      background: var(--success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: white;
+      font-size: 10px;
+    }
+
+    .result-header-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--success);
+    }
+
+    .result-handle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-left: auto;
+      font-family: var(--font-mono);
+    }
+
+    .result-body { padding: 20px; }
+
+    .result-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .did-value {
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      color: var(--text-primary);
+      word-break: break-all;
+      line-height: 1.55;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    /* Decode animation — the signature element */
+    .did-value.decoding span {
+      display: inline-block;
+      animation: decode .4s ease forwards;
+    }
+
+    @keyframes decode {
+      0%   { opacity: 0; filter: blur(4px); transform: translateY(2px); }
+      100% { opacity: 1; filter: blur(0);   transform: translateY(0); }
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+      height: 36px;
+      padding: 0 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color .15s, background .15s;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-secondary);
+    }
+
+    .btn-secondary:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+
+    .copied-toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: var(--text-primary);
+      color: var(--bg);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 9px 18px;
+      border-radius: 40px;
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s, transform .2s;
+      white-space: nowrap;
+      z-index: 200;
+    }
+
+    .copied-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Meta info row */
+    .meta-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      margin-top: 16px;
+    }
+
+    .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 10px;
+    }
+
+    .meta-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ============================================
+       ERROR STATE
+       ============================================ */
+    .error-card {
+      background: var(--error-bg);
+      border: 1px solid color-mix(in srgb, var(--error) 30%, transparent);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      animation: slideUp .22s cubic-bezier(.16,1,.3,1) both;
+    }
+
+    .error-icon {
+      width: 20px;
+      height: 20px;
+      background: var(--error);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .error-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--error);
+      margin-bottom: 4px;
+    }
+
+    .error-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       INFO / HOW IT WORKS
+       ============================================ */
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .info-item {
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-tertiary);
+    }
+
+    .info-item-icon {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .info-item-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .info-item-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       FAQ / STRUCTURED DATA
+       ============================================ */
+    .faq-section { margin-bottom: 48px; }
+
+    .faq-item {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+
+    .faq-q {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .faq-a {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .faq-a code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--text-primary);
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+    }
+
+    .footer-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-text {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .footer-link {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .footer-link:hover { color: var(--text-secondary); }
+
+    /* ============================================
+       INSTALL BANNER
+       ============================================ */
+    .install-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -4px 20px rgba(0,0,0,.12);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 150;
+      transform: translateY(100%);
+      transition: transform .3s cubic-bezier(.16,1,.3,1);
+    }
+
+    .install-banner.show { transform: translateY(0); }
+
+    .install-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: white;
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    .install-text { flex: 1; }
+    .install-title { font-size: 14px; font-weight: 600; }
+    .install-desc { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+    .install-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+    .btn-install {
+      height: 36px;
+      padding: 0 16px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .btn-install:hover { background: var(--accent-hover); }
+
+    .btn-dismiss {
+      height: 36px;
+      padding: 0 14px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .btn-dismiss:hover { background: var(--bg-secondary); }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 480px) {
+      main { padding: 44px 0 64px; }
+      .card { padding: 20px; }
+      .input-group { flex-direction: column; }
+      .btn-primary { width: 100%; justify-content: center; }
+      .info-grid { grid-template-columns: 1fr; }
+      .result-handle { display: none; }
+      .install-banner { flex-wrap: wrap; }
+    }
+
+    @media (max-width: 360px) {
+      .container { padding: 0 16px; }
+      h1 { font-size: 26px; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    /* Focus visible */
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+
+    <!-- HEADER -->
+    <header role="banner">
+      <nav class="nav-inner" aria-label="Main navigation">
+        <a href="/" class="logo" aria-label="Bluesky DID Finder Home">
+          <div class="logo-icon" aria-hidden="true">@</div>
+          <span class="logo-text">DID Finder <span>for Bluesky</span></span>
+        </a>
+        <button class="theme-btn" id="themeBtn" aria-label="Toggle dark/light mode" title="Toggle theme">
+          <span id="themeIcon" aria-hidden="true">☀️</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- MAIN -->
+    <main id="main-content" role="main">
+      <div class="container">
+
+        <!-- HERO -->
+        <section class="hero" aria-labelledby="hero-heading">
+          <div class="eyebrow" aria-hidden="true">
+            <span class="eyebrow-dot"></span>
+            AT Protocol · Live API
+          </div>
+          <h1 id="hero-heading">
+            Resolve any Bluesky handle<br>to its <em>DID</em> instantly.
+          </h1>
+          <p class="hero-desc">
+            Enter a Bluesky handle and retrieve its Decentralized Identifier — <code>did:plc</code> or <code>did:web</code> — directly from the AT Protocol's identity API. No login. No tracking.
+          </p>
+        </section>
+
+        <!-- SEARCH CARD -->
+        <section aria-label="DID lookup tool">
+          <div class="card">
+            <form id="lookupForm" role="search" aria-label="Bluesky handle search" novalidate>
+              <div class="input-group">
+                <div class="input-wrapper">
+                  <span class="input-prefix" aria-hidden="true">@</span>
+                  <label for="handleInput" class="sr-only">Bluesky handle</label>
+                  <input
+                    type="text"
+                    id="handleInput"
+                    class="handle-input"
+                    placeholder="handle.bsky.social"
+                    autocomplete="off"
+                    autocorrect="off"
+                    autocapitalize="none"
+                    spellcheck="false"
+                    inputmode="email"
+                    aria-describedby="handleHint"
+                    aria-autocomplete="none"
+                  />
+                </div>
+                <button type="submit" id="lookupBtn" class="btn-primary" aria-label="Look up DID">
+                  <span id="btnContent">
+                    Resolve <span class="btn-icon" aria-hidden="true">→</span>
+                  </span>
+                </button>
+              </div>
+              <p class="hint" id="handleHint">
+                Enter with or without <code style="font-family:var(--font-mono);font-size:11px;background:var(--bg-secondary);border:1px solid var(--border);padding:1px 5px;border-radius:3px;">@</code> — e.g. <strong>alice.bsky.social</strong> or <strong>custom.domain.com</strong>
+              </p>
+            </form>
+          </div>
+
+          <!-- RESULT / ERROR AREA -->
+          <div id="resultArea" aria-live="polite" aria-atomic="true"></div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section style="margin-top: 56px" aria-labelledby="how-heading">
+          <p class="section-title" id="how-heading">Why this matters</p>
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-item-icon" aria-hidden="true">🔑</div>
+              <div class="info-item-title">Permanent identity</div>
+              <div class="info-item-desc">A DID stays with the user even if they change their handle or move servers.</div>
+            </div>
+            <div class="info-item">
+              <div class="info-item-icon" aria-hidden="true">🛡️</div>
+              <div class="info-item-title">Tamper-proof</div>
+              <div class="info-item-desc">DIDs are anchored in the AT Protocol's distributed log, making them verifiable.</div>
+            </div>
+            <div class="info-item">
+              <div class="info-item-icon" aria-hidden="true">⚡</div>
+              <div class="info-item-title">Live resolution</div>
+              <div class="info-item-desc">Data is fetched directly from Bluesky's public API in real time.</div>
+            </div>
+            <div class="info-item">
+              <div class="info-item-icon" aria-hidden="true">🔒</div>
+              <div class="info-item-title">Privacy-first</div>
+              <div class="info-item-desc">No accounts, no analytics, no cookies. Just a direct API call.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq-section" aria-labelledby="faq-heading">
+          <p class="section-title" id="faq-heading">Frequently asked</p>
+
+          <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <div class="faq-q" itemprop="name">What is a DID on Bluesky?</div>
+            <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+              <span itemprop="text">A Decentralized Identifier (DID) is a unique, permanent ID for every user in the AT Protocol. Bluesky assigns each account either a <code>did:plc</code> (managed by the PLC directory) or a <code>did:web</code> (hosted on the user's own domain). Unlike handles, a DID never changes.</span>
+            </div>
+          </div>
+
+          <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <div class="faq-q" itemprop="name">Where does the DID come from?</div>
+            <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+              <span itemprop="text">This tool calls the official Bluesky Public API endpoint <code>com.atproto.identity.resolveHandle</code>, which returns the DID for any valid handle. No credentials or authentication required.</span>
+            </div>
+          </div>
+
+          <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <div class="faq-q" itemprop="name">Can I look up custom domain handles?</div>
+            <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+              <span itemprop="text">Yes. Enter any valid Bluesky handle, including those using a custom domain like <code>user.example.com</code>. The AT Protocol supports domain-based handles verified via DNS records.</span>
+            </div>
+          </div>
+
+          <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <div class="faq-q" itemprop="name">What do I do with a DID?</div>
+            <div class="faq-a" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+              <span itemprop="text">DIDs are useful for developers building on the AT Protocol, for verifying identity across server migrations, and for constructing AT URIs to reference a user's content. You can also view a user's full DID document at <code>plc.directory</code>.</span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer role="contentinfo">
+      <div class="footer-inner">
+        <p class="footer-text">Data sourced from the public Bluesky API · No data stored</p>
+        <a href="https://docs.bsky.app/docs/api/com-atproto-identity-resolve-handle" target="_blank" rel="noopener noreferrer" class="footer-link" aria-label="AT Protocol API documentation (opens in new tab)">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" style="opacity:.7">
+            <path d="M2 2h4v1H3v6h6V7h1v2a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1zm5 0h3v3h-1V3.707L5.354 7.354l-.708-.708L8.293 3H7V2z" fill="currentColor"/>
+          </svg>
+          AT Protocol Docs
+        </a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- TOAST -->
+  <div id="copiedToast" class="copied-toast" role="status" aria-live="polite">Copied to clipboard ✓</div>
+
+  <!-- INSTALL BANNER -->
+  <div id="installBanner" class="install-banner" role="complementary" aria-label="App installation">
+    <div class="install-icon" aria-hidden="true">@</div>
+    <div class="install-text">
+      <div class="install-title">Add to Home Screen</div>
+      <div class="install-desc">Use DID Finder offline, any time.</div>
+    </div>
+    <div class="install-actions">
+      <button class="btn-install" id="installBtn">Install</button>
+      <button class="btn-dismiss" id="dismissBtn" aria-label="Dismiss install prompt">Not now</button>
+    </div>
+  </div>
+
+  <!-- SR-only styles -->
+  <style>.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}</style>
+
+  <script>
+    /* ============================================
+       THEME MANAGEMENT
+       ============================================ */
+    (function() {
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = stored || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      updateThemeIcon(theme);
+
+      function updateThemeIcon(t) {
+        const icon = document.getElementById('themeIcon');
+        if (icon) icon.textContent = t === 'dark' ? '☀️' : '🌙';
+      }
+
+      window.__setTheme = function(t) {
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('theme', t);
+        updateThemeIcon(t);
+      };
+    })();
+
+    document.getElementById('themeBtn').addEventListener('click', function() {
+      const current = document.documentElement.getAttribute('data-theme');
+      window.__setTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (!localStorage.getItem('theme')) {
+        window.__setTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+
+    /* ============================================
+       DID LOOKUP
+       ============================================ */
+    const form     = document.getElementById('lookupForm');
+    const input    = document.getElementById('handleInput');
+    const btn      = document.getElementById('lookupBtn');
+    const btnContent = document.getElementById('btnContent');
+    const resultArea = document.getElementById('resultArea');
+
+    function sanitizeHandle(raw) {
+      return raw.trim().toLowerCase().replace(/^@+/, '');
+    }
+
+    function isValidHandle(h) {
+      return /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(h)
+          && h.includes('.')
+          && h.length <= 253;
+    }
+
+    async function resolveHandle(handle) {
+      const url = `https://bsky.social/xrpc/com.atproto.identity.resolveHandle?handle=${encodeURIComponent(handle)}`;
+      const res = await fetch(url, { method: 'GET', headers: { 'Accept': 'application/json' } });
+      if (!res.ok) {
+        if (res.status === 400) throw new Error('Handle not found or invalid.');
+        if (res.status === 429) throw new Error('Rate limit reached. Please try again in a moment.');
+        throw new Error(`API error (${res.status}). Please try again.`);
+      }
+      const data = await res.json();
+      if (!data.did) throw new Error('No DID returned for this handle.');
+      return data.did;
+    }
+
+    function setLoading(loading) {
+      btn.disabled = loading;
+      input.disabled = loading;
+      if (loading) {
+        btnContent.innerHTML = '<span class="spinner" aria-hidden="true"></span> Resolving…';
+      } else {
+        btnContent.innerHTML = 'Resolve <span class="btn-icon" aria-hidden="true">→</span>';
+      }
+    }
+
+    function showError(msg) {
+      resultArea.innerHTML = `
+        <div class="error-card" role="alert">
+          <div class="error-icon" aria-hidden="true">!</div>
+          <div>
+            <div class="error-title">Could not resolve handle</div>
+            <div class="error-desc">${escapeHtml(msg)}</div>
+          </div>
+        </div>`;
+      input.classList.add('error-input');
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function showResult(handle, did) {
+      const type = did.startsWith('did:plc:') ? 'did:plc' : did.startsWith('did:web:') ? 'did:web' : 'DID';
+      const plcUrl = `https://plc.directory/${encodeURIComponent(did)}`;
+      const profileUrl = `https://bsky.app/profile/${encodeURIComponent(handle)}`;
+
+      resultArea.innerHTML = `
+        <div class="result-card">
+          <div class="result-header">
+            <div class="check-icon" aria-hidden="true">✓</div>
+            <span class="result-header-text">Resolved successfully</span>
+            <span class="result-handle">@${escapeHtml(handle)}</span>
+          </div>
+          <div class="result-body">
+            <div class="result-label">Decentralized Identifier (DID)</div>
+            <div class="did-value decoding" id="didValue" aria-label="DID value: ${escapeHtml(did)}"></div>
+            <div class="result-actions">
+              <button class="btn-secondary" id="copyBtn" onclick="copyDid('${escapeHtml(did)}')" aria-label="Copy DID to clipboard">
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 9V2a1 1 0 011-1h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                Copy DID
+              </button>
+              <a href="${plcUrl}" target="_blank" rel="noopener noreferrer" class="btn-secondary" aria-label="View DID document on plc.directory (opens in new tab)">
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M1.5 1.5h4v1H2.5v8h8V9h1v2a1 1 0 01-1 1h-8a1 1 0 01-1-1v-8a1 1 0 011-1zm5.5 0h4v4h-1V3.207L6.354 7.854l-.708-.708L10.293 2.5H7v-1z" fill="currentColor"/></svg>
+                DID Document
+              </a>
+              <a href="${profileUrl}" target="_blank" rel="noopener noreferrer" class="btn-secondary" aria-label="View Bluesky profile (opens in new tab)">
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><circle cx="6.5" cy="4.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 11.5c0-2.761 2.239-5 5-5s5 2.239 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                View Profile
+              </a>
+            </div>
+            <div class="meta-row">
+              <span class="meta-badge"><span class="meta-badge-dot"></span>${escapeHtml(type)}</span>
+              <span class="meta-badge">AT Protocol</span>
+              <span class="meta-badge">Bluesky Public API</span>
+            </div>
+          </div>
+        </div>`;
+
+      /* Decode animation on DID characters */
+      const el = document.getElementById('didValue');
+      if (el && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const chars = did.split('');
+        el.innerHTML = chars.map((c, i) =>
+          `<span style="animation-delay:${i * 12}ms">${c === '<' ? '&lt;' : c}</span>`
+        ).join('');
+      } else if (el) {
+        el.textContent = did;
+      }
+    }
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      input.classList.remove('error-input');
+      resultArea.innerHTML = '';
+
+      const raw = input.value;
+      const handle = sanitizeHandle(raw);
+
+      if (!handle) {
+        input.focus();
+        return;
+      }
+
+      if (!isValidHandle(handle)) {
+        showError("That doesn't look like a valid Bluesky handle. Try something like alice.bsky.social.");
+        input.classList.add('error-input');
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const did = await resolveHandle(handle);
+        showResult(handle, did);
+        input.value = handle;
+      } catch (err) {
+        showError(err.message || 'An unexpected error occurred. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    input.addEventListener('input', function() {
+      input.classList.remove('error-input');
+    });
+
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); form.requestSubmit(); }
+    });
+
+    /* ============================================
+       CLIPBOARD
+       ============================================ */
+    window.copyDid = async function(did) {
+      try {
+        await navigator.clipboard.writeText(did);
+      } catch (_) {
+        const ta = document.createElement('textarea');
+        ta.value = did;
+        ta.style.cssText = 'position:fixed;opacity:0;';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      const toast = document.getElementById('copiedToast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2200);
+    };
+
+    /* ============================================
+       PWA — SERVICE WORKER (INLINE)
+       ============================================ */
+    const SW_CODE = `
+const CACHE = 'did-finder-v1';
+const SHELL = ['/'];
+
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
+});
+
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', e => {
+  const url = new URL(e.request.url);
+  /* Network-first for the Bluesky API */
+  if (url.hostname === 'bsky.social') {
+    e.respondWith(fetch(e.request).catch(() => new Response('{"error":"Offline"}', {headers:{'Content-Type':'application/json'}})));
+    return;
+  }
+  /* Cache-first for the app shell */
+  e.respondWith(
+    caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
+      if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+      return res;
+    }))
+  );
+});
+`;
+
+    if ('serviceWorker' in navigator) {
+      const blob = new Blob([SW_CODE], { type: 'application/javascript' });
+      const swURL = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swURL, { scope: '/' }).catch(() => {});
+    }
+
+    /* ============================================
+       PWA INSTALL PROMPT
+       ============================================ */
+    let deferredPrompt = null;
+    const banner = document.getElementById('installBanner');
+    const installBtn = document.getElementById('installBtn');
+    const dismissBtn = document.getElementById('dismissBtn');
+
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const dismissed = sessionStorage.getItem('installDismissed');
+      if (!dismissed) {
+        setTimeout(() => banner.classList.add('show'), 2000);
+      }
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        banner.classList.remove('show');
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+      }
+    });
+
+    dismissBtn.addEventListener('click', () => {
+      banner.classList.remove('show');
+      sessionStorage.setItem('installDismissed', '1');
+    });
+
+    window.addEventListener('appinstalled', () => {
+      banner.classList.remove('show');
+      deferredPrompt = null;
+    });
+
+    /* ============================================
+       URL PARAM PREFILL
+       ============================================ */
+    (function() {
+      const params = new URLSearchParams(location.search);
+      const h = params.get('handle') || params.get('h');
+      if (h) {
+        input.value = h.replace(/^@/, '');
+        form.requestSubmit();
+      }
+    })();
+  </script>
+</body>
+</html>
